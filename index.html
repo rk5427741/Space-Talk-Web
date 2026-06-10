@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Explorer Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <header>
+        <nav class="main-nav">
+            <div class="nav-brand">
+                <h1><i class="fas fa-rocket"></i> SpaceTalk</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" data-tab="apod"><i class="fas fa-star"></i> APOD</a></li>
+                <li><a href="#" class="nav-link" data-tab="mars"><i class="fas fa-robot"></i> Mars</a></li>
+                <li><a href="#" class="nav-link" data-tab="neo"><i class="fas fa-meteor"></i> NEOs</a></li>
+                <li><a href="#" class="nav-link" data-tab="earth"><i class="fas fa-globe"></i> Earth</a></li>
+                <li><a href="#" class="nav-link" data-tab="epic"><i class="fas fa-satellite"></i> EPIC</a></li>
+                <li><a href="#" class="nav-link" data-tab="library"><i class="fas fa-book"></i> Library</a></li>
+            </ul>
+        </nav>
+        <div class="header-content">
+            <p>Explore the cosmos with NASA's open APIs</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="tab-content active" id="apod">
+            <h2><i class="fas fa-star"></i> Astronomy Picture of the Day</h2>
+            <div class="date-picker">
+                <label for="apod-date">Select Date:</label>
+                <input type="date" id="apod-date">
+                <button id="fetch-apod"><i class="fas fa-sync-alt"></i> Fetch Picture</button>
+                <button id="random-apod"><i class="fas fa-random"></i> Random</button>
+            </div>
+            <div class="apod-container">
+                <div id="apod-image"></div>
+                <div id="apod-info">
+                    <h3 id="apod-title"></h3>
+                    <p id="apod-date-display"></p>
+                    <p id="apod-explanation"></p>
+                    <div id="apod-meta">
+                        <span id="apod-copyright"></span>
+                        <span id="apod-hd"><a href="#" target="_blank" id="hd-link">View HD Version</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="mars">
+            <h2><i class="fas fa-robot"></i> Mars Rover Photos</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="rover">Rover:</label>
+                    <select id="rover">
+                        <option value="curiosity">Curiosity</option>
+                        <option value="opportunity">Opportunity</option>
+                        <option value="spirit">Spirit</option>
+                        <option value="perseverance">Perseverance</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="camera">Camera:</label>
+                    <select id="camera">
+                        <option value="all">All Cameras</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="sol">Martian Sol:</label>
+                    <input type="number" id="sol" min="0" value="1000">
+                </div>
+                <div class="control-group">
+                    <label for="page">Page:</label>
+                    <input type="number" id="page" min="1" value="1">
+                </div>
+                <button id="fetch-mars"><i class="fas fa-sync-alt"></i> Get Photos</button>
+                <button id="random-mars"><i class="fas fa-random"></i> Random Sol</button>
+            </div>
+            <div class="pagination">
+                <button id="prev-page"><i class="fas fa-chevron-left"></i> Previous</button>
+                <span id="page-info">Page 1</span>
+                <button id="next-page">Next <i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div id="mars-photos" class="photo-grid">
+                <div class="no-results">
+    <i class="fas fa-image"></i>
+    <p>No photos found for Sol ${sol}</p>
+    <p>Try an earlier sol or different camera</p>
+    <p>Max sol for ${rover}: ${maxSol}</p>
+</div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="neo">
+            <h2><i class="fas fa-meteor"></i> Near Earth Objects</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="neo-start-date">Start Date:</label>
+                    <input type="date" id="neo-start-date">
+                </div>
+                <div class="control-group">
+                    <label for="neo-end-date">End Date:</label>
+                    <input type="date" id="neo-end-date">
+                </div>
+                <button id="fetch-neo"><i class="fas fa-sync-alt"></i> Search NEOs</button>
+                <button id="today-neo"><i class="fas fa-calendar-day"></i> Today's NEOs</button>
+            </div>
+            <div id="neo-results">
+                <div id="neo-stats"></div>
+                <div id="neo-list"></div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="earth">
+            <h2><i class="fas fa-globe"></i> Earth Imagery</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="earth-lat">Latitude:</label>
+                    <input type="number" id="earth-lat" min="-90" max="90" step="0.0001" value="40.7128">
+                </div>
+                <div class="control-group">
+                    <label for="earth-lon">Longitude:</label>
+                    <input type="number" id="earth-lon" min="-180" max="180" step="0.0001" value="-74.0060">
+                </div>
+                <div class="control-group">
+                    <label for="earth-dim">Dimension (km):</label>
+                    <input type="number" id="earth-dim" min="0.1" max="1" step="0.1" value="0.5">
+                </div>
+                <div class="control-group">
+                    <label for="earth-date">Date:</label>
+                    <input type="date" id="earth-date">
+                </div>
+                <button id="fetch-earth"><i class="fas fa-sync-alt"></i> Get Image</button>
+                <button id="random-earth"><i class="fas fa-random"></i> Random Location</button>
+            </div>
+            <div id="earth-image-container">
+                <div id="earth-image"></div>
+                <div id="earth-info"></div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="epic">
+            <h2><i class="fas fa-satellite"></i> EPIC Earth Imagery</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="epic-type">Image Type:</label>
+                    <select id="epic-type">
+                        <option value="natural">Natural Color</option>
+                        <option value="enhanced">Enhanced Color</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="epic-date">Date:</label>
+                    <input type="date" id="epic-date">
+                </div>
+                <button id="fetch-epic"><i class="fas fa-sync-alt"></i> Get EPIC Images</button>
+                <button id="latest-epic"><i class="fas fa-clock"></i> Latest</button>
+            </div>
+            <div id="epic-images" class="photo-grid"></div>
+        </div>
+
+        <div class="tab-content" id="library">
+            <h2><i class="fas fa-book"></i> NASA Image Library</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="search-query">Search Term:</label>
+                    <input type="text" id="search-query" placeholder="e.g., galaxy, nebula">
+                </div>
+                <div class="control-group">
+                    <label for="search-year">Year:</label>
+                    <input type="number" id="search-year" min="1900" max="2023" placeholder="Optional">
+                </div>
+                <div class="control-group">
+                    <label for="search-media-type">Media Type:</label>
+                    <select id="search-media-type">
+                        <option value="all">All</option>
+                        <option value="image">Images</option>
+                        <option value="video">Videos</option>
+                        <option value="audio">Audio</option>
+                    </select>
+                </div>
+                <button id="search-nasa"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <div class="pagination">
+                <button id="prev-lib-page"><i class="fas fa-chevron-left"></i> Previous</button>
+                <span id="lib-page-info">Page 1</span>
+                <button id="next-lib-page">Next <i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div id="library-results" class="photo-grid"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About</h3>
+                <p>SpaceTalk uses NASA's open APIs to bring you the latest space imagery and data.</p>
+            </div>
+            <div class="footer-section">
+                <h3>APIs Used</h3>
+                <ul>
+                    <li>APOD</li>
+                    <li>Mars Rover Photos</li>
+                    <li>NEO</li>
+                    <li>Earth Polychromatic Imaging Camera (EPIC)</li>
+                    <li>NASA Image and Video Library</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Data provided by NASA's Open APIs | © 2023 SpaceTalk </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
